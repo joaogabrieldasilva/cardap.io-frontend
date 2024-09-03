@@ -43,12 +43,6 @@ export default function SignUp() {
       <Button variant="link" className="w-full" size="sm" asChild>
         <Link href="/auth/sign-in">Already registered? Sign in</Link>
       </Button>
-
-      <Separator />
-      <Button variant="outline" className="w-full">
-        <Image src={githubIcon} alt="" className="size-6 mr-2 dark:invert" />
-        Sign up with github
-      </Button>
     </form>
   );
 }

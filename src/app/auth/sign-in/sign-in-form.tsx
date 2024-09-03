@@ -77,12 +77,6 @@ export function SignInForm() {
       >
         <Link href="/auth/sign-up">Create new account</Link>
       </Button>
-
-      <Separator />
-      <Button variant="outline" className="w-full" disabled={isPending}>
-        <Image src={githubIcon} alt="" className="size-6 mr-2 dark:invert" />
-        Sign in with github
-      </Button>
     </form>
   );
 }

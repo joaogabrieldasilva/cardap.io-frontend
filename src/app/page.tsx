@@ -1,5 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { auth } from "@/auth/auth";
+import { api } from "@/http/api-client";
 
-export default function Home() {
-  return <main></main>;
+export default async function Home() {
+  const { establishment } = await auth();
+
+  return <main>{JSON.stringify(establishment)}</main>;
 }
