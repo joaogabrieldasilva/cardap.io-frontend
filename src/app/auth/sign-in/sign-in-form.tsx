@@ -11,10 +11,14 @@ import { AlertTriangle, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "./actions";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
+  const router = useRouter();
+
   const [{ success, errors, message }, handleSubmit, isPending] = useFormState(
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    () => router.push("/")
   );
 
   return (

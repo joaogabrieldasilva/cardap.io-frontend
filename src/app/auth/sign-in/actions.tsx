@@ -2,6 +2,8 @@
 
 import { signInWithPassword } from "@/http/sign-in-with-password";
 import { HTTPError } from "ky";
+import { redirect } from "next/dist/server/api-utils";
+import { cookies } from "next/headers";
 import { z } from "zod";
 
 const signInSchema = z.object({
@@ -28,6 +30,8 @@ export async function signInWithEmailAndPassword(data: FormData) {
     //   email,
     //   password,
     // });
+
+    cookies().set("token", "123", { maxAge: 60 * 60 * 24 * 7, path: "/" });
 
     return {
       success: true,
