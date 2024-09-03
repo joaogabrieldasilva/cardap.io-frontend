@@ -9,10 +9,7 @@ const signInSchema = z.object({
   password: z.string().min(1, { message: "Please provide your password" }),
 });
 
-export async function signInWithEmailAndPassword(
-  previousState: any,
-  data: FormData
-) {
+export async function signInWithEmailAndPassword(data: FormData) {
   const formData = Object.fromEntries(data);
   const result = signInSchema.safeParse(formData);
 
@@ -21,10 +18,6 @@ export async function signInWithEmailAndPassword(
       success: false,
       message: null,
       errors: result.error.flatten().fieldErrors,
-      payload: {
-        email: formData.email.toString(),
-        password: formData.password.toString(),
-      },
     };
   }
 
@@ -40,7 +33,6 @@ export async function signInWithEmailAndPassword(
       success: true,
       message: null,
       errors: null,
-      payload: result.data,
     };
   } catch (err) {
     if (err instanceof HTTPError) {
@@ -50,7 +42,6 @@ export async function signInWithEmailAndPassword(
         success: false,
         message,
         errors: null,
-        payload: result.data,
       };
     }
 
@@ -58,7 +49,6 @@ export async function signInWithEmailAndPassword(
       success: false,
       message: "Unexpected error, try again in a few minutes.",
       errors: null,
-      payload: result.data,
     };
   }
 }

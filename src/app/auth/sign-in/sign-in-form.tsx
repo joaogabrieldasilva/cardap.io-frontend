@@ -8,24 +8,38 @@ import githubIcon from "@/assets/github-icon.svg";
 import Link from "next/link";
 import Image from "next/image";
 import { signInWithEmailAndPassword } from "./actions";
-import { useActionState } from "react";
+import { FormEvent, useActionState, useState, useTransition } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function SignInForm() {
-  const [{ success, errors, message, payload }, formAction, isPending] =
-    useActionState(signInWithEmailAndPassword, {
-      errors: null,
-      message: null,
-      success: false,
-      payload: {
-        email: "",
-        password: "",
-      },
+  const [isPending, startTransition] = useTransition();
+
+  const [{ success, errors, message }, setFormState] = useState<{
+    errors: Record<string, string[]> | null;
+    message: string | null;
+    success: boolean;
+  }>({
+    errors: null,
+    message: null,
+    success: false,
+  });
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    startTransition(async () => {
+      const state = await signInWithEmailAndPassword(data);
+
+      setFormState(state);
     });
+  }
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {success === false && message && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
@@ -35,7 +49,7 @@ export function SignInForm() {
       )}
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input name="email" id="email" defaultValue={payload.email} />
+        <Input name="email" id="email" />
         {errors?.email && (
           <p className="text-sm font-medium text-red-500 dark:text-red-400">
             {errors.email[0]}
@@ -49,7 +63,6 @@ export function SignInForm() {
           id="password"
           type="password"
           autoComplete="new-password"
-          defaultValue={payload.password}
         />
         {errors?.password && (
           <p className="text-sm font-medium text-red-500 dark:text-red-400">
