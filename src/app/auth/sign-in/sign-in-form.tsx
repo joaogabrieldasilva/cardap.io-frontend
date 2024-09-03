@@ -1,42 +1,21 @@
 "use client";
 
+import githubIcon from "@/assets/github-icon.svg";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import githubIcon from "@/assets/github-icon.svg";
-import Link from "next/link";
-import Image from "next/image";
-import { signInWithEmailAndPassword } from "./actions";
-import { FormEvent, useActionState, useState, useTransition } from "react";
+import { useFormState } from "@/hooks/use-form-state";
 import { AlertTriangle, Loader2 } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Image from "next/image";
+import Link from "next/link";
+import { signInWithEmailAndPassword } from "./actions";
 
 export function SignInForm() {
-  const [isPending, startTransition] = useTransition();
-
-  const [{ success, errors, message }, setFormState] = useState<{
-    errors: Record<string, string[]> | null;
-    message: string | null;
-    success: boolean;
-  }>({
-    errors: null,
-    message: null,
-    success: false,
-  });
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const data = new FormData(form);
-
-    startTransition(async () => {
-      const state = await signInWithEmailAndPassword(data);
-
-      setFormState(state);
-    });
-  }
+  const [{ success, errors, message }, handleSubmit, isPending] = useFormState(
+    signInWithEmailAndPassword
+  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
