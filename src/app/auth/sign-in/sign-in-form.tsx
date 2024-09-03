@@ -13,10 +13,16 @@ import { AlertTriangle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function SignInForm() {
-  const [{ success, errors, message }, formAction, isPending] = useActionState(
-    signInWithEmailAndPassword,
-    { errors: null, message: null, success: false }
-  );
+  const [{ success, errors, message, payload }, formAction, isPending] =
+    useActionState(signInWithEmailAndPassword, {
+      errors: null,
+      message: null,
+      success: false,
+      payload: {
+        email: "",
+        password: "",
+      },
+    });
 
   return (
     <form action={formAction} className="space-y-4">
@@ -29,7 +35,7 @@ export function SignInForm() {
       )}
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input name="email" id="email" />
+        <Input name="email" id="email" defaultValue={payload.email} />
         {errors?.email && (
           <p className="text-sm font-medium text-red-500 dark:text-red-400">
             {errors.email[0]}
@@ -43,6 +49,7 @@ export function SignInForm() {
           id="password"
           type="password"
           autoComplete="new-password"
+          defaultValue={payload.password}
         />
         {errors?.password && (
           <p className="text-sm font-medium text-red-500 dark:text-red-400">

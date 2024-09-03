@@ -13,13 +13,18 @@ export async function signInWithEmailAndPassword(
   previousState: any,
   data: FormData
 ) {
-  const result = signInSchema.safeParse(Object.fromEntries(data));
+  const formData = Object.fromEntries(data);
+  const result = signInSchema.safeParse(formData);
 
   if (!result.success) {
     return {
       success: false,
       message: null,
       errors: result.error.flatten().fieldErrors,
+      payload: {
+        email: formData.email.toString(),
+        password: formData.password.toString(),
+      },
     };
   }
 
@@ -35,6 +40,7 @@ export async function signInWithEmailAndPassword(
       success: true,
       message: null,
       errors: null,
+      payload: result.data,
     };
   } catch (err) {
     if (err instanceof HTTPError) {
@@ -44,6 +50,7 @@ export async function signInWithEmailAndPassword(
         success: false,
         message,
         errors: null,
+        payload: result.data,
       };
     }
 
@@ -51,6 +58,7 @@ export async function signInWithEmailAndPassword(
       success: false,
       message: "Unexpected error, try again in a few minutes.",
       errors: null,
+      payload: result.data,
     };
   }
 }
