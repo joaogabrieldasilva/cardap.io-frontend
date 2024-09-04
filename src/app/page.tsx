@@ -1,8 +1,7 @@
 import { auth } from "@/auth/auth";
-import { api } from "@/http/api-client";
 
 export default async function Home() {
-  const { establishment } = await auth();
+  const { user } = await auth();
 
-  return <main>{JSON.stringify(establishment)}</main>;
+  return <main>{JSON.stringify(user)}</main>;
 }

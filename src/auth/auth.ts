@@ -1,4 +1,4 @@
-import { getEstablishmentProfile } from "@/http/get-establishment-profile";
+import { getUserProfile } from "@/http/get-user-profile";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -14,10 +14,12 @@ export async function auth() {
   }
 
   try {
-    const establishment = await getEstablishmentProfile();
+    const user = await getUserProfile();
 
-    return { establishment };
-  } catch {}
+    return { user };
+  } catch (error) {
+    console.error(error);
+  }
 
   redirect("/api/auth/sign-out");
 }

@@ -20,8 +20,6 @@ export const api = ky.create({
         if (token) {
           request.headers.set("Authorization", `Bearer ${token}`);
         }
-
-        console.log(request.headers);
       },
     ],
   },
