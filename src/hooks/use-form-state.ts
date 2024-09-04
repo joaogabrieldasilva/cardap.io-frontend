@@ -8,7 +8,7 @@ type FormState = {
 
 export function useFormState(
   action: (data: FormData) => Promise<FormState>,
-  onSuccess: () => void,
+  onSuccess?: () => void,
   initialState?: FormState
 ) {
   const [isPending, startTransition] = useTransition();

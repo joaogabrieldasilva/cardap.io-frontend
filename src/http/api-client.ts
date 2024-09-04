@@ -3,7 +3,7 @@ import { getCookie } from "cookies-next";
 import type { CookiesFn } from "cookies-next/lib/types";
 
 export const api = ky.create({
-  prefixUrl: "http://localhost:3000/",
+  prefixUrl: "http://localhost:8080/",
   hooks: {
     beforeRequest: [
       async (request) => {
