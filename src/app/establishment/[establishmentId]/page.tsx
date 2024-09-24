@@ -72,7 +72,7 @@ export default function Establishment({ params }: Props) {
             </div>
             <Badge variant="secondary" className="space-x-1">
               <Clock className="h-4 w-4" />
-              <span>Open Now</span>
+              <span>Opened Now</span>
             </Badge>
           </div>
           <CardDescription>
